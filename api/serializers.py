@@ -1,7 +1,8 @@
 # accounts/serializers.py
 
 from rest_framework import serializers
-from .models import CustomUser
+from .models import CustomUser,Student,ClassName
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,3 +18,17 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+    
+
+
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = ['id', 'name', 'roll', 'city']
+
+class ClassSerializer(serializers.ModelSerializer):
+    student = StudentSerializer()
+
+    class Meta:
+        model = ClassName
+        fields = ['id', 'className','student']
